@@ -61,7 +61,6 @@ pipeline {
         stage('Upload Docker Image to Nexus') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         echo "Push Docker Image to Nexus : Completed"
                     }
                 }
