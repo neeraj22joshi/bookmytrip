@@ -61,8 +61,7 @@ pipeline {
         stage('Upload Docker Image to Nexus') {
             steps {
                 script {
-                        echo "Push Docker Image to Nexus : Completed"
-                    }
+                    echo "Push Docker Image to Nexus : Completed"
                 }
             }
         }
