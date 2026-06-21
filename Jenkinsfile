@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     options {
@@ -21,21 +20,21 @@ pipeline {
         stage('Code QA Execution') {
             steps {
                 echo 'Running JUnit Test Cases...'
-                sh 'mvn clean test'
+                sh 'mvn test'
                 echo 'JUnit Test Cases Completed Successfully!'
             }
         }
         stage('Code Package') {
             steps {
                 echo 'Creating WAR Artifact...'
-                sh 'mvn clean package'
+                sh 'mvn package'
                 echo 'WAR Artifact Created Successfully!'
             }
         }
         stage('Build & Tag Docker Image') {
             steps {
                 echo 'Building Docker Image with Tags...'
-                sh "docker build -t neeraj22joshi/bookmytrip:latest -t bookmytrip:latest ."
+                sh 'docker build -t neeraj22joshi/bookmytrip:latest -t bookmytrip:latest .'
                 echo 'Docker Image Build Completed!'
             }
         }
@@ -75,7 +74,13 @@ pipeline {
         stage('Upload Docker Image to Nexus') {
             steps {
                 script {
-                    echo "Push Docker Image to Nexus : Completed"
+                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login 15.207.110.73:8085 -u $USERNAME -p $PASSWORD'
+                        echo "Push Docker Image to Nexus : In Progress"
+                        sh 'docker tag bookmytrip:latest 15.207.110.73:8085/bookmytrip:latest'
+                        sh 'docker push 15.207.110.73:8085/bookmytrip:latest'
+                        echo "Push Docker Image to Nexus : Completed"
+                    }
                 }
             }
         }
