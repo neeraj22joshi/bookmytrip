@@ -47,16 +47,14 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                  echo 'Docker Image Pushed to Docker Hub Successfully!'
-                    }
+                    echo 'Docker Image Pushed to Docker Hub Successfully!'
                 }
             }
         }
         stage('Push Docker Image to Amazon ECR') {
             steps {
                 script {
-                   echo 'Docker Image Pushed to Amazon ECR Successfully!'
-                    }
+                    echo 'Docker Image Pushed to Amazon ECR Successfully!'
                 }
             }
         }
@@ -64,7 +62,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                     echo "Push Docker Image to Nexus : Completed"
+                        echo "Push Docker Image to Nexus : Completed"
                     }
                 }
             }
